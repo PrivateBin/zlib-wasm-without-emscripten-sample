@@ -1,0 +1,4 @@
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib
+	branch = tags/v1.3.1
