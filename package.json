@@ -13,6 +13,7 @@
   "devDependencies": {
     "ava": "^6.0.1",
     "benchmark": "^2.1.4",
+    "mkdirp": "^1.0.4",
     "pako": "^2.1.0",
     "webassembly": "^0.11.0"
   }
