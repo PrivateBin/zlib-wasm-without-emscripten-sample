@@ -39,5 +39,5 @@ jobs:
       run: npm test
 
     - name: Run benchmark
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.run_benchmark == 'true'
+      if: github.event.inputs.run_benchmark == 'true'
       run: npm run bench
