@@ -23,6 +23,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        submodules: true
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -31,6 +33,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+
+    # fixes https://github.com/PrivateBin/zlib-wasm-without-emscripten-sample/actions/runs/21549147483/job/62095162356
+    # WebAssembly build with clang fails due to missing libtinfo.so.5 inUbuntu-24
+    # TODO: upgrade webassembly package
+    - name: Fix libtinfo for clang
+      run: sudo ln -sf /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libtinfo.so.5
 
     - name: Build
       run: npm run build
