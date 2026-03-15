@@ -3,13 +3,10 @@
 #include "../zlib/zlib.h"
 
 // JS callback to copy a chunk of WASM memory
-EM_JS(void, writeToJs, (z_stream *ptr, size_t size), {
-  const data = new Uint8Array(Module.HEAPU8.buffer, ptr, size);
-
+EM_JS(void, writeToJs, (z_stream *ptr, unsigned char *dst, size_t size), {
   const o = Module.map[ptr];
-
   if (o && typeof o.onData === 'function') {
-    o.onData(data);
+    o.onData(Module.HEAPU8.subarray(dst, dst + size));
   } else {
     console.error("No handler found for pointer:", ptr);
   }
@@ -51,7 +48,7 @@ int _deflate(z_stream *ptr, unsigned char *src, unsigned char *dst, size_t avail
       ret = deflate(ptr, flush ? Z_FINISH : Z_NO_FLUSH);
       if (ret == Z_STREAM_ERROR) return ret;
       have = avail_out - ptr->avail_out;
-      writeToJs(ptr, have);
+      writeToJs(ptr, dst, have);
   } while (ptr->avail_out == 0);
   return ret;
 }
@@ -95,7 +92,7 @@ int _inflate(z_stream *ptr, unsigned char *src, unsigned char *dst, size_t avail
         return ret;
     }
     have = avail_out - ptr->avail_out;
-    writeToJs(ptr, have);
+    writeToJs(ptr, dst, have);
   } while (ptr->avail_out == 0);
   return ret;
 }

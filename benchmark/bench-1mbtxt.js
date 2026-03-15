@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const pako = require('pako');
 
-const zlibSample = require('../src/index.js');
+const zlibSample = require('../src/index');
 const zlib = require('zlib');
 
 (async () => {
