@@ -4,7 +4,7 @@
   "description": "A zlib WebAssembly binary build sample using emscripten.",
   "scripts": {
     "test": "ava test/test.js",
-    "build": "mkdir -p build && podman run --rm -v $(pwd):/src -u $(id -u):$(id -g) --userns=keep-id emscripten/emsdk:5.0.0 emcc -O3 src/zlib-sample.c zlib/adler32.c zlib/crc32.c zlib/deflate.c zlib/inflate.c zlib/inffast.c zlib/inftrees.c zlib/trees.c zlib/zutil.c -o build/zlib.js -sMODULARIZE -sEXPORTED_RUNTIME_METHODS=HEAPU8",
+    "build": "mkdir -p build && $(command -v podman || echo docker) run --rm -v $(pwd):/src -u $(id -u):$(id -g) --userns=keep-id emscripten/emsdk:5.0.0 emcc -O3 src/zlib-sample.c zlib/adler32.c zlib/crc32.c zlib/deflate.c zlib/inflate.c zlib/inffast.c zlib/inftrees.c zlib/trees.c zlib/zutil.c -o build/zlib.js -sMODULARIZE -sEXPORTED_RUNTIME_METHODS=HEAPU8",
     "bench": "node benchmark/bench-1mbtxt.js"
   },
   "author": "ukyo",
