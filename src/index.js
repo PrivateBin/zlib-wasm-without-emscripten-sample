@@ -1,12 +1,7 @@
-"use strict";
+import zlibLoader from '../build/zlib.mjs';
 
-const createModule = require("../build/zlib");
-const fs = require("fs");
-const buff = fs.readFileSync("build/zlib.wasm");
-let ret;
-
-module.exports.initialize = async () => {
-  const Module = await createModule();
+export const initialize = async () => {
+  const Module = await zlibLoader();
   Module.map = {};
 
   const COMPRESSION_LEVEL = 6;
@@ -83,7 +78,7 @@ module.exports.initialize = async () => {
     }
   }
 
-  ret = {
+  const ret = {
     inflate(rawDeflateBuffer) {
       const rawInf = new RawInf();
       for (let offset = 0; offset < rawDeflateBuffer.length; offset += CHUNK_SIZE) {
@@ -106,7 +101,9 @@ module.exports.initialize = async () => {
       rawDef.destroy();
       return ret;
     },
-  }
+  };
 
   return ret;
 };
+
+export default initialize;
