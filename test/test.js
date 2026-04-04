@@ -1,13 +1,11 @@
-"use strict";
-
-const test = require("ava");
-const zlib = require("zlib");
-const crypto = require("crypto");
-const zlibSample = require("../src/index");
+import test from 'ava';
+import zlib from 'zlib';
+import crypto from 'crypto';
+import zlibSampleInit from '../src/index.js';
 
 
-test("inflate", async t => {
-  const myZlib = await zlibSample.initialize();
+await test("inflate", async t => {
+  const myZlib = await zlibSampleInit();
   let source;
   let deflated;
 
@@ -15,7 +13,7 @@ test("inflate", async t => {
     source = crypto.randomBytes(1);
     deflated = zlib.deflateRawSync(source, {});
     t.true(myZlib.inflate(deflated).equals(source));
-    
+
     source = crypto.randomBytes(1024);
     deflated = zlib.deflateRawSync(source, {});
     t.true(myZlib.inflate(deflated).equals(source));
@@ -27,7 +25,7 @@ test("inflate", async t => {
 });
 
 test("deflate", async t => {
-  const myZlib = await zlibSample.initialize();
+  const myZlib = await zlibSampleInit();
   let source;
   let deflated;
 
@@ -39,7 +37,7 @@ test("deflate", async t => {
     source = crypto.randomBytes(1024);
     deflated = myZlib.deflate(source);
     t.true(zlib.inflateRawSync(deflated).equals(source));
-    
+
     source = crypto.randomBytes(1024 * 1024);
     deflated = myZlib.deflate(source);
     t.true(zlib.inflateRawSync(deflated).equals(source));

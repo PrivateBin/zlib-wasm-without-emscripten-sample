@@ -1,19 +1,15 @@
-'use strict';
+import Benchmark from 'benchmark';
+import fs from 'fs';
+import pako from 'pako';
 
-const Benchmark = require('benchmark');
-const util = require('util');
-const fs = require('fs');
-const path = require('path');
-const pako = require('pako');
-
-const zlibSample = require('../src/index');
-const zlib = require('zlib');
+import zlibSampleInit from '../src/index.js';
+import zlib from 'zlib';
 
 (async () => {
-  const myZlib = await zlibSample.initialize();
+  const myZlib = await zlibSampleInit();
   const chunkSize = 32 * 1024;
   const level = 6;
-  const source = fs.readFileSync(path.join(__dirname, "lorem_1mb.txt"));
+  const source = fs.readFileSync("benchmark/lorem_1mb.txt");
 
   // warmup
   myZlib.deflate(source);
