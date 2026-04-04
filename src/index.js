@@ -1,8 +1,6 @@
-import zlibLoader from '../build/zlib.mjs';
-
 export const initialize = async () => {
-  const Module = await zlibLoader();
-  Module.map = {};
+  const createModule = await import('../build/zlib.mjs');
+  const Module = await createModule.default({map: {}});
 
   const COMPRESSION_LEVEL = 6;
   const NO_ZLIB_HEADER = -1;
@@ -40,7 +38,7 @@ export const initialize = async () => {
     }
 
     getBuffer() {
-      return Buffer.from(this.buff.buffer, 0, this.offset);
+      return this.buff.slice(0, this.offset);
     }
   }
 
@@ -74,7 +72,7 @@ export const initialize = async () => {
     }
 
     getBuffer() {
-      return Buffer.from(this.buff.buffer, 0, this.offset);
+      return this.buff.slice(0, this.offset);
     }
   }
 
