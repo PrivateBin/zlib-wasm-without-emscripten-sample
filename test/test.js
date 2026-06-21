@@ -12,15 +12,15 @@ await test("inflate", async t => {
   for (let i = 0; i < 10; i++) {
     source = crypto.randomBytes(1);
     deflated = zlib.deflateRawSync(source, {});
-    t.true(myZlib.inflate(deflated).equals(source));
+    t.true(source.equals(myZlib.inflate(deflated)));
 
     source = crypto.randomBytes(1024);
     deflated = zlib.deflateRawSync(source, {});
-    t.true(myZlib.inflate(deflated).equals(source));
+    t.true(source.equals(myZlib.inflate(deflated)));
 
     source = crypto.randomBytes(1024 * 1024);
     deflated = zlib.deflateRawSync(source, {});
-    t.true(myZlib.inflate(deflated).equals(source));
+    t.true(source.equals(myZlib.inflate(deflated)));
   }
 });
 
